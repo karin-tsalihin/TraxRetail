@@ -39,7 +39,7 @@ server.get('/AllContacts',(req,res) => {
 // a route for adding a new contact (from client side) to contacts array
 server.post('/AddContact', urlencodedParser, function(req, res){
 	new_contact = req.body; 
-	if(typeof new_contact.name === 'string' && typeof new_contact.tel ===' string')
+	if(typeof new_contact.name === 'string' && typeof new_contact.tel === 'string')
 	{
 		// check for more errors in the input e.g. a contact that is already exists in contacts array
 		contacts.push(new_contact);
