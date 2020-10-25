@@ -39,12 +39,31 @@ server.get('/AllContacts',(req,res) => {
 // a route for adding a new contact (from client side) to contacts array
 server.post('/AddContact', urlencodedParser, function(req, res){
 	new_contact = req.body; 
-	// check for errors in the input (invalid or contact that is already exists in contacts)
-	contacts.push(new_contact);
-	// send respone to the user- status: success
-	res.status(200);
+	if(typeof new_contact.name === 'string' && typeof new_contact.tel ===' string')
+	{
+		// check for more errors in the input e.g. a contact that is already exists in contacts array
+		contacts.push(new_contact);
+		// send respone with status: success
+		res.status(200); 
+	}
+	// send respone with status: failure (can seperate to cases and send proper code status for each of them)
+	res.status(400); 
+	
 });
 
+// a route for finding a contact by name
+server.get('/findByName/:name',(req,res) => {
+	// get the name from url. check for errors in the parameter
+	const name = req.params.name;
+	// search for the name in the contacts array
+	let contact = contacts.find(contact => contact.name === name);
+	// return proper respone (if name found then contact, otherwise a failure message)
+	if(contact == undefined)
+	{
+		res.send('contact was not found');
+	}
+	res.send(contact);
+});
 
 // start (activate) the server in the port
 server.listen(port);
